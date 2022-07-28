@@ -46,7 +46,7 @@ html {
 }
 
 .has-float-label input:placeholder-shown:not(:focus) {
-    border-bottom: 2px solid #8a8a8a;
+    border-bottom: 2px solid black;
 }
 
 /*.has-float-label input:-moz-ui-invalid {
@@ -57,7 +57,7 @@ html {
 }*/
 
 .has-float-label input:disabled {
-    border-bottom: 2px dotted #8a8a8a !important;
+    border-bottom: 2px dotted black !important;
     pointer-events: none;
     background-color: inherit;
 }
@@ -71,7 +71,7 @@ html {
     background-color: initial;
     color: #2c2c2c;
     caret-color: #2979ff;
-    border-bottom: 2px solid #8a8a8a;
+    border-bottom: 2px solid black;
 }
 
 input {
@@ -80,6 +80,7 @@ input {
     line-height: 1.15;
     margin: 0;
     outline: none;
+    color: black !important;
 }
 
 
@@ -87,7 +88,6 @@ input {
     font-size: 16px;
     top: 20px;
     bottom: -8px;
-    color: #838383;
 }
 
 .has-float-label label,
@@ -97,7 +97,6 @@ input {
     top: 0;
     cursor: text;
     font-size: 12px;
-    color: #6d6d6d;
     transition: all .2s;
     pointer-events: none;
 
