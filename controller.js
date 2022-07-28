@@ -1,7 +1,11 @@
+
+
 window.onload = function () {
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
+
+    var pastedImage;
 
     document.getElementById('pasteArea').onpaste = function (event) {
         // use event.originalEvent.clipboard for newer chrome versions
@@ -24,6 +28,7 @@ window.onload = function () {
                 myImage.onload = function () {
                     canvas.width = myImage.width;
                     canvas.height = myImage.height;
+                    pastedImage = myImage;
                     ctx.drawImage(myImage, 0, 0, myImage.width, myImage.height);
                     //LoadPalette();
                     ProcessImage();
@@ -35,17 +40,18 @@ window.onload = function () {
     }
 
 
-    function ProcessImage() {
-        var pixel = ctx.getImageData(0, 0, 1, 1);
-        var data = pixel.data;
+    //Add the change listener to update image
+    inputs = document.getElementsByTagName('input');
+    for (index = 0; index < inputs.length; ++index) {
+        inputs[index].addEventListener('change', ProcessImage);
+    }
 
-        var rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
-        console.log(rgba);
-        var hsv = rgbToHsv(data[0], data[1], data[2]);
-        hsv[0] *= 360;
-        hsv[1] *= 100;
-        hsv[2] *= 100;
-        console.log(hsv);
+
+
+
+
+    function ProcessImage() {
+
 
         var currentPalette = [];
         var inputElements = document.getElementsByClassName('messageCheckbox');
@@ -54,9 +60,11 @@ window.onload = function () {
                 currentPalette.push(paletteData.swatches.filter(p => p.hue == inputElements[i].value)[0]);
             }
         }
-        console.log(currentPalette);
 
 
+
+
+        ctx.drawImage(pastedImage, 0, 0, pastedImage.width, pastedImage.height);
 
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var dat = imageData.data;
@@ -68,13 +76,26 @@ window.onload = function () {
                     specialColors.push(c);
                 });
             }
+
+            swatch.weight = document.getElementById(swatch.hue + "Weight")?.value;
+            swatch.sat = document.getElementById(swatch.hue + "Sat")?.value 
+
         });
 
+        var darken = document.getElementById("Darken").value;
+        var currentSwatch = { colors: [] };
         for (let i = 0; i < dat.length; i += 4) {
             var hsv = rgbToHsv(dat[i], dat[i + 1], dat[i + 2]);
             var hue = hsv[0] * 360;
-            var currentSwatch = { colors: [] };
             var tempSwatchPointer;
+
+
+            var value = hsv[2] * 100;
+            var currentColor;
+            var minValueDifference = 100000000;
+            
+            currentSwatch.colors = [];
+            
             var minHueDistance = 100000000;
 
             var complete = false;
@@ -86,34 +107,34 @@ window.onload = function () {
                 var distance = Math.min(Math.abs(swatch.hue - hue), 360 - Math.abs(swatch.hue - hue));
 
                 //white
-                if (hsv[2] > document.getElementById(swatch.hue + "Weight").value && swatch.hue == -3
-                    && hsv[1] < document.getElementById(swatch.hue + "Sat").value) {
+                if (hsv[2] > swatch.weight && swatch.hue == -3
+                    && hsv[1] < swatch.sat) {
                     tempSwatchPointer = swatch;
                     complete = true;
                 }
 
                 // //Skin
-                // if (hsv[2] > document.getElementById(swatch.hue + "Weight").value && swatch.hue == -2
-                // && hsv[1] < document.getElementById(swatch.hue + "Sat").value) {
+                // if (hsv[2] > swatch.weight&& swatch.hue == -2
+                // && hsv[1] < swatch.sat) {
                 //     tempSwatchPointer = swatch;
                 //     complete = true;
                 // }
 
                 //black
-                if (hsv[2] < document.getElementById(swatch.hue + "Weight").value && swatch.hue == -4
-                    && hsv[1] < document.getElementById(swatch.hue + "Sat").value) {
+                if (hsv[2] < swatch.weight&& swatch.hue == -4
+                    && hsv[1] < swatch.sat) {
                     tempSwatchPointer = swatch;
                     complete = true;
                 }
 
 
                 //desaturated
-                if (hsv[1] < document.getElementById(swatch.hue + "Weight").value && swatch.hue == -1) {
+                if (hsv[1] < swatch.weight&& swatch.hue == -1) {
                     tempSwatchPointer = swatch;
                     complete = true;
                 }
 
-                var weight = document.getElementById(swatch.hue + "Weight").value;
+                var weight = swatch.weight;
                 if (weight != undefined) {
                     distance /= weight;
                 }
@@ -129,10 +150,6 @@ window.onload = function () {
                     currentSwatch.colors.push(c);
                 });
             }
-
-            var value = hsv[2] * 100;
-            var currentColor;
-            var minValueDifference = 100000000;
 
             // specialColors.forEach(c => {
             //     currentSwatch.colors.push(c);
@@ -151,7 +168,6 @@ window.onload = function () {
             });
 
 
-            var darken = document.getElementById("Darken").value;
 
             var index = currentSwatch.colors.indexOf(currentColor);
             if (darken != 0) {
