@@ -83,7 +83,7 @@ window.onload = function () {
                 if (complete) {
                     return;
                 }
-                var distance = Math.abs(swatch.hue - hue);
+                var distance = Math.min(Math.abs(swatch.hue - hue), 360 - Math.abs(swatch.hue - hue));
 
                 //white
                 if (hsv[2] > document.getElementById(swatch.hue + "Weight").value && swatch.hue == -3
