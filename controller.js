@@ -171,7 +171,7 @@ window.onload = function () {
 
             var index = currentSwatch.colors.indexOf(currentColor);
             if (darken != 0) {
-                var newIndex = index - darken;
+                var newIndex = index + darken;
                 newIndex = Math.max(0, newIndex);
                 newIndex = Math.min(currentSwatch.colors.length - 1, newIndex);
                 currentColor = currentSwatch.colors[newIndex];
