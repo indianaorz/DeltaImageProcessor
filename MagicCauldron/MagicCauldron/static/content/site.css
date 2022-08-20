@@ -49,12 +49,15 @@ html {
 }
 
 .background {
-    background-image: url('../image/woodback.png');
+    background-image: url('../image/detailedback_2x.png');
     background-repeat: repeat;
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 100%;
+    width: 300%;
+    left: -1206px;
+    top: -10px;
+    background-size: 1320px;
     position: fixed;
 }
 
@@ -100,14 +103,14 @@ html {
 
 #properties {
     position: fixed;
-    left: -7vw;
-    top: -4vh;
+    right: -7vw;
+    top: -21vh;
     z-index: 10;
     background: black;
     padding: 2vw;
     transform: scale(.5);
     border-radius: 4vh;
-    box-shadow: 0 0 1vh 1vh black;
+    box-shadow: 0 0 1vh 1vh #0c692f;
 }
 
 .input-row {
@@ -120,13 +123,13 @@ html {
     z-index: 1;
     position: fixed;
     bottom: 1vh;
-    height: 10vh;
+    height: 20vh;
     left: 1vw;
     width: 60%;
     max-width: 60%;
-    background-color: black;
+    background-color: black;/*hsl(40deg 27% 50%);*/
     color: white;
-    font-size: 1vw;
+    font-size: 1.5vw;
 }
 
 * {
@@ -538,4 +541,12 @@ a:visited {
     position: fixed;
     right: 1vw;
     bottom: 1vh;
+    background-color: #0c692f;
+}
+
+.resetbutton {
+    bottom: 23vh;
+    width: 16vw;
+    background-color: hsl(143deg 60% 10%);
+    height: 34px;
 }
