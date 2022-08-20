@@ -75,6 +75,7 @@ html {
     left: 29vw;
     top: 22vh;
     box-shadow: 0px 0px 1vw 1vw black;
+    border-radius: 146px;
 }
 
 #cauldronoverlay {
@@ -84,7 +85,8 @@ html {
     left: 29vw;
     top: 22vh;
     z-index: 100;
-    pointer-events: none
+    pointer-events: none;
+    border-radius: 146px;
 }
 
 .navbar-inverse {

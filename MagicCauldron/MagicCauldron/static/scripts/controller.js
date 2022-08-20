@@ -22,8 +22,8 @@ window.onload = function () {
 
     function dragElement(elmnt) {
 
-        elmnt.style.top = "10vh";
-        elmnt.style.left = "80vw";
+        elmnt.style.top = "15vh";
+        elmnt.style.left = "0vw";
 
 
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -353,8 +353,8 @@ function PostImage(i) {
         if (!setLast) {
             lastX = pasteBin.style.top;
             lastY = pasteBin.style.left;
-            pasteBin.style.top = "10vh";
-            pasteBin.style.left = "80vw";
+            pasteBin.style.top = "15vh";
+            pasteBin.style.left = "0vw";
             setLast = true;
         }
     }
