@@ -45,7 +45,7 @@ input[type="checkbox"].input-validation-error {
 html {
     font-family: 'Roboto', sans-serif;
     line-height: 1;
-    background-color: #333333;
+    background-color: black;
 }
 
 .background {
@@ -73,6 +73,7 @@ html {
     top: 22vh;
     box-shadow: 0px 0px 1vw 1vw black;
 }
+
 #cauldronoverlay {
     box-shadow: 0px 0px 1vw 1vw black;
     padding: 0;
@@ -81,6 +82,10 @@ html {
     top: 22vh;
     z-index: 100;
     pointer-events: none
+}
+
+.navbar-inverse {
+    background-color: black !important;
 }
 
 #loading {
@@ -92,6 +97,7 @@ html {
     width: 20%;
     z-index: 9999999;
 }
+
 #properties {
     position: fixed;
     left: -7vw;
@@ -109,6 +115,7 @@ html {
     align-items: center;
     padding: 6px 24px;
 }
+
 #prompt {
     z-index: 1;
     position: fixed;
@@ -198,8 +205,8 @@ input {
     line-height: 1.15;
     margin: 0;
     outline: none;
-    background:black;
-    color:white;
+    background: black;
+    color: white;
 }
 
 
