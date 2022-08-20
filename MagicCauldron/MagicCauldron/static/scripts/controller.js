@@ -6,12 +6,22 @@ window.onload = function () {
     var pasteBin = document.getElementById('pasteBin');
     var ctx = pasteBin.getContext('2d');
 
+
+    var cauldron = document.getElementById('cauldron');
+    var cauldTx = cauldron.getContext('2d');
+
     var pastedImage;
+
+
 
     // Make the DIV element draggable:
     dragElement(pasteBin);
 
     function dragElement(elmnt) {
+
+        elmnt.style.top = "10vh";
+        elmnt.style.left = "10vw";
+
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (document.getElementById(elmnt.id + "header")) {
             // if present, the header is where you move the DIV from:
@@ -93,6 +103,11 @@ window.onload = function () {
     }
 
 
+    StartCauldron();
+
+    function StartCauldron() {
+        cauldTx.fillRect(0, 0, cauldron.width, cauldron.height);
+    }
 
 
 
@@ -383,3 +398,30 @@ window.onload = function () {
         ]
     }
 };
+
+function Stir() {
+    var cauldron = document.getElementById('cauldron');
+    var cauldTx = cauldron.getContext('2d');
+
+
+    var pasteBin = document.getElementById('pasteBin');
+    var pasteBinCtx = pasteBin.getContext('2d');
+
+    var startX = parseInt(pasteBin.getBoundingClientRect().left) - parseInt(cauldron.getBoundingClientRect().left);
+    var startY = parseInt(pasteBin.getBoundingClientRect().top) - parseInt(cauldron.getBoundingClientRect().top);
+
+
+
+
+    var imageData = pasteBinCtx.getImageData(0, 0, pasteBin.width, pasteBin.height);
+
+    //call its drawImage() function passing it the source canvas directly
+    cauldTx.putImageData(imageData, startX, startY);
+    var jpegUrl = cauldron.toDataURL();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/image", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(jpegUrl));
+
+}

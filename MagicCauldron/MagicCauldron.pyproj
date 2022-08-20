@@ -36,6 +36,7 @@
     <Folder Include="MagicCauldron\static\" />
     <Folder Include="MagicCauldron\static\content\" />
     <Folder Include="MagicCauldron\static\fonts\" />
+    <Folder Include="MagicCauldron\static\image\" />
     <Folder Include="MagicCauldron\static\scripts\" />
     <Folder Include="MagicCauldron\templates\" />
   </ItemGroup>
@@ -46,6 +47,10 @@
     <Content Include="MagicCauldron\static\scripts\controller.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="MagicCauldron\static\scripts\html2canvas.min.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="MagicCauldron\static\image\woodback.png" />
     <Content Include="requirements.txt" />
     <Content Include="MagicCauldron\static\content\bootstrap.css" />
     <Content Include="MagicCauldron\static\content\bootstrap.min.css" />
