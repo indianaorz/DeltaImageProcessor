@@ -1,6 +1,6 @@
 
 
-
+var pasteBinSet = false;
 window.onload = function () {
     $('#loading').hide();
     var pasteBin = document.getElementById('pasteBin');
@@ -88,6 +88,7 @@ window.onload = function () {
                     ctx.drawImage(myImage, 0, 0, myImage.width, myImage.height);
                     //LoadPalette();
                     ProcessImage();
+                    pasteBinSet = true;
                 }
                 myImage.src = event.target.result;
             };
@@ -324,26 +325,28 @@ function PostImage(i) {
     var cauldron = document.getElementById('cauldron');
     var cauldTx = cauldron.getContext('2d');
 
+    if (pasteBinSet) {
+        var pasteBin = document.getElementById('pasteBin');
+        var pasteBinCtx = pasteBin.getContext('2d');
 
-    var pasteBin = document.getElementById('pasteBin');
-    var pasteBinCtx = pasteBin.getContext('2d');
-
-    var startX = parseInt(pasteBin.getBoundingClientRect().left) - parseInt(cauldron.getBoundingClientRect().left);
-    var startY = parseInt(pasteBin.getBoundingClientRect().top) - parseInt(cauldron.getBoundingClientRect().top);
-
-
-    var imageData = pasteBinCtx.getImageData(0, 0, pasteBin.width, pasteBin.height);
+        var startX = parseInt(pasteBin.getBoundingClientRect().left) - parseInt(cauldron.getBoundingClientRect().left);
+        var startY = parseInt(pasteBin.getBoundingClientRect().top) - parseInt(cauldron.getBoundingClientRect().top);
 
 
-    //call its drawImage() function passing it the source canvas directly
-    cauldTx.putImageData(imageData, startX, startY);
+        var imageData = pasteBinCtx.getImageData(0, 0, pasteBin.width, pasteBin.height);
 
-    if (!setLast) {
-        lastX = pasteBin.style.top;
-        lastY = pasteBin.style.left;
-        pasteBin.style.top = "10vh";
-        pasteBin.style.left = "80vw";
-        setLast = true;
+
+        //call its drawImage() function passing it the source canvas directly
+        cauldTx.putImageData(imageData, startX, startY);
+
+
+        if (!setLast) {
+            lastX = pasteBin.style.top;
+            lastY = pasteBin.style.left;
+            pasteBin.style.top = "10vh";
+            pasteBin.style.left = "80vw";
+            setLast = true;
+        }
     }
 
 

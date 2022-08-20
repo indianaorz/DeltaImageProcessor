@@ -30,34 +30,34 @@
             <div class="helper">Will filter out colors with value higher(0-1)</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="strength" value=".5">
+            <input placeholder=" " type="number" id="strength" max=".99" value=".5">
             <span class="label">Strength</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">How many noise steps will be added. Higher means keep less form.</div>
         </label>
         <label class="has-float-label">
             <input placeholder=" " type="number" id="cfg" value="7">
             <span class="label">CFG</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">How much the ai tries to match the prompt. 7 base, 3 low, 10 bright, 12 high</div>
         </label>
         <label class="has-float-label">
             <input placeholder=" " type="number" id="seed" value="100">
             <span class="label">Seed</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">Seed for noise generation. Same seed = same noise</div>
         </label>
         <label class="has-float-label">
             <input placeholder=" " type="number" id="steps" value="100">
             <span class="label">Steps</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">How many rendering steps are performed</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="iterations" value="1">
+            <input placeholder=" " type="number" id="iterations" max ="16" value="1">
             <span class="label">Iterations</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">How many times the ai will be called in a row.</div>
         </label>
         <label class="has-float-label">
             <input placeholder=" " type="number" id="pastescale" value="1">
             <span class="label">Paste Scale</span>
-            <div class="helper">Will filter out colors with value higher(0-1)</div>
+            <div class="helper">Scale modification when pasting from clipboard</div>
         </label>
         <label class="has-float-label">
             <input placeholder=" " type="number" id="width" max="512" min="16" value="256">
