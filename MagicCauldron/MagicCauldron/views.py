@@ -166,7 +166,7 @@ def create_image():
         iterations = 16
         
     width = int(width/64) * 64
-    height = int(width/height) * 64
+    height = int(height/64) * 64
 
     outputs = model.txt2img(
         prompt=prompt,
