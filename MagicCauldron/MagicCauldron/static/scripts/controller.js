@@ -411,17 +411,36 @@ function Stir() {
     var startY = parseInt(pasteBin.getBoundingClientRect().top) - parseInt(cauldron.getBoundingClientRect().top);
 
 
-
-
     var imageData = pasteBinCtx.getImageData(0, 0, pasteBin.width, pasteBin.height);
+
 
     //call its drawImage() function passing it the source canvas directly
     cauldTx.putImageData(imageData, startX, startY);
-    var jpegUrl = cauldron.toDataURL();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/image", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(jpegUrl));
+
+    var jpegUrl = cauldron.toDataURL("image/jpeg")
+
+    var request = JSON.stringify(jpegUrl);
+
+    $.ajax({
+        url: '/image',
+        type: "POST",
+        data: request,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+
+            var image = new Image();
+            image.onload = function () {
+                cauldTx.drawImage(image, 0, 0);
+            };
+            var imageData = data.image.replace("b\'\"", "");
+            imageData = imageData.substring(0, imageData.length - 1);
+
+            console.log(imageData);
+            image.src = imageData;
+        }
+    })
 
 }

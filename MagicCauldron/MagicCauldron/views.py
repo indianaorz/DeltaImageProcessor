@@ -3,6 +3,7 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
+from lib2to3.pytree import convert
 from flask import render_template
 from flask import Flask, request, jsonify
 from MagicCauldron import app
@@ -27,18 +28,27 @@ def process_image():
     import base64
     import os
 
-    img_data = base64.b64decode(request.data + b"==")
-
     n = 0.5
     num = 1
     cfg = 10
     iterations = 1
     name = "test"
-    prompt = (
-        "the contents of a magic cauldron, digital art, high resolution, birds eye view"
-    )
+    prompt = "contents dissolving into a magic cauldron, digital art, high resolution, birds eye view"
     seed = 100
     steps = 100
+
+    init = "img/" + name + ".jpg"
+
+    # data = {"image": str(request.data)}
+    # return jsonify(data)
+
+    # Check whether the specified path exists or not
+    isExist = os.path.exists("img/")
+    if not isExist:
+        # Create a new directory because it does not exist
+        os.makedirs("img/")
+
+    convert_and_save(request.data, init)
 
     if cfg == 0:
         cfg = 7.0
@@ -64,17 +74,6 @@ def process_image():
     from ldm.simplet2i import T2I
 
     model = T2I()
-    init = "img/" + name + ".png"
-
-    # Check whether the specified path exists or not
-    isExist = os.path.exists("img/")
-    if not isExist:
-      # Create a new directory because it does not exist 
-      os.makedirs("img/")
-      
-    filename = name  # I assume you have a way of picking unique filenames
-    with open(filename, 'wb') as f:
-        f.write(img_data)
 
     outputs = model.img2img(
         prompt=prompt,
@@ -91,12 +90,38 @@ def process_image():
 
     # Read the image via file.stream
     # img = Image.open(imgdata.stream)
+    from PIL import Image
 
-    b64_string = base64.b64encode(outputs.read())
+    encoded_string = ""
 
-    print(b64_string)
+    with open(outputs[0][0], "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
 
-    return jsonify(b64_string)
+    print(encoded_string)
+    image_string = str(encoded_string);
+    image_string = image_string.replace("b\'", "data:image/png;base64,")
+
+    if request.method == "POST":
+        data = {
+            "image": image_string
+        }
+        return jsonify(data)
+    else:
+
+        return """<html><body>
+        Something went horribly wrong
+        </body></html>"""
+
+    return jsonify()
+
+
+def convert_and_save(b64_string, path):
+    import base64
+    import io
+
+    b = b64_string
+    z = b[b.find(b"/9") :]
+    im = Image.open(io.BytesIO(base64.b64decode(z))).save(path)
 
 
 @app.route("/contact")
