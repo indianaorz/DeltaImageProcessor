@@ -50,7 +50,7 @@
             <div class="helper">How many rendering steps are performed</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="iterations" max ="16" value="1">
+            <input placeholder=" " type="number" id="iterations" max="16" value="1">
             <span class="label">Iterations</span>
             <div class="helper">How many times the ai will be called in a row.</div>
         </label>
@@ -72,6 +72,7 @@
     </div>
 
     <canvas id="cauldron" width="256" height="256"></canvas>
+    <div id="cauldronoverlay" width="256" height="256"></div>
 
     <button class="pure-material-button-contained button" onclick="ResetImage()" style=" bottom: 24vh; width:80px; height:80px">ResetImage</button>
     <button class="pure-material-button-contained button" onclick="Stir()">Stir</button>

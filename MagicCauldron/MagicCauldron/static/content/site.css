@@ -68,11 +68,21 @@ html {
 
 #cauldron {
     padding: 0;
-    position: relative;
-    left: 27vw;
-    top: 34px;
+    position: fixed;
+    left: 52vw;
+    top: 22vh;
     box-shadow: 0px 0px 1vw 1vw black;
 }
+#cauldronoverlay {
+    box-shadow: 0px 0px 1vw 1vw black;
+    padding: 0;
+    position: fixed;
+    left: 52vw;
+    top: 22vh;
+    z-index: 100;
+    pointer-events: none
+}
+
 #loading {
     background: url(../image/spinner.gif) no-repeat center center;
     position: absolute;

@@ -10,6 +10,9 @@ window.onload = function () {
     var cauldron = document.getElementById('cauldron');
     var cauldTx = cauldron.getContext('2d');
 
+    var cauldronoverlay = document.getElementById('cauldronoverlay'); 
+
+
     var pastedImage;
 
 
@@ -21,6 +24,7 @@ window.onload = function () {
 
         elmnt.style.top = "10vh";
         elmnt.style.left = "80vw";
+
 
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (document.getElementById(elmnt.id + "header")) {
@@ -112,11 +116,17 @@ window.onload = function () {
 
     function StartCauldron() {
         cauldTx.fillRect(0, 0, cauldron.width, cauldron.height);
+
+
+        cauldronoverlay.style.height = cauldron.height + "px";
+        cauldronoverlay.style.width = cauldron.width + "px";
     }
 
     function ChangeCanvasScale() {
         cauldron.height = parseInt(document.getElementById('height').value / 64) * 64;
         cauldron.width = parseInt(document.getElementById('width').value / 64) * 64;
+        cauldronoverlay.style.height = cauldron.height + "px";
+        cauldronoverlay.style.width = cauldron.width + "px";
     }
 
 
