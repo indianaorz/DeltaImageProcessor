@@ -2,7 +2,7 @@
 
 
 window.onload = function () {
-
+    $('#loading').hide();
     var pasteBin = document.getElementById('pasteBin');
     var ctx = pasteBin.getContext('2d');
 
@@ -113,137 +113,28 @@ window.onload = function () {
 
     function ProcessImage() {
 
-
-        var currentPalette = [];
-        var inputElements = document.getElementsByClassName('messageCheckbox');
-        for (var i = 0; inputElements[i]; ++i) {
-            if (inputElements[i].checked) {
-                currentPalette.push(paletteData.swatches.filter(p => p.hue == inputElements[i].value)[0]);
-            }
-        }
+        var canvas = document.getElementById('pasteBin');
+        var ctx = pasteBin.getContext('2d');
+        var scale = document.getElementById('pastescale').value;
 
 
+        // step 1 - resize to 50%
+        var oc = document.createElement('canvas'),
+            octx = oc.getContext('2d');
 
+        oc.width = canvas.width * scale;
+        oc.height = canvas.height * scale;
+        octx.drawImage(canvas, 0, 0, oc.width, oc.height);
 
-        ctx.drawImage(pastedImage, 0, 0, pastedImage.width, pastedImage.height);
+        // step 2
+        octx.drawImage(oc, 0, 0, oc.width * scale, oc.height * scale);
 
-        const imageData = ctx.getImageData(0, 0, pasteBin.width, pasteBin.height);
-        var dat = imageData.data;
-        var specialColors = [];
+        canvas.width = canvas.width * scale;
+        canvas.height = canvas.height * scale;
 
-        currentPalette.forEach(swatch => {
-            if (swatch.hue < -1) {
-                swatch.colors.forEach(c => {
-                    specialColors.push(c);
-                });
-            }
-
-            swatch.weight = document.getElementById(swatch.hue + "Weight")?.value;
-            swatch.sat = document.getElementById(swatch.hue + "Sat")?.value
-
-        });
-
-        var darken = document.getElementById("Darken").value;
-        var currentSwatch = { colors: [] };
-        for (let i = 0; i < dat.length; i += 4) {
-            var hsv = rgbToHsv(dat[i], dat[i + 1], dat[i + 2]);
-            var hue = hsv[0] * 360;
-            var tempSwatchPointer;
-
-
-            var value = hsv[2] * 100;
-            var currentColor;
-            var minValueDifference = 100000000;
-
-            currentSwatch.colors = [];
-
-            var minHueDistance = 100000000;
-
-            var complete = false;
-            //find closest avail color
-            currentPalette.forEach(swatch => {
-                if (complete) {
-                    return;
-                }
-                var distance = Math.min(Math.abs(swatch.hue - hue), 360 - Math.abs(swatch.hue - hue));
-
-                //white
-                if (hsv[2] > swatch.weight && swatch.hue == -3
-                    && hsv[1] < swatch.sat) {
-                    tempSwatchPointer = swatch;
-                    complete = true;
-                }
-
-                // //Skin
-                // if (hsv[2] > swatch.weight&& swatch.hue == -2
-                // && hsv[1] < swatch.sat) {
-                //     tempSwatchPointer = swatch;
-                //     complete = true;
-                // }
-
-                //black
-                if (hsv[2] < swatch.weight && swatch.hue == -4
-                    && hsv[1] < swatch.sat) {
-                    tempSwatchPointer = swatch;
-                    complete = true;
-                }
-
-
-                //desaturated
-                if (hsv[1] < swatch.weight && swatch.hue == -1) {
-                    tempSwatchPointer = swatch;
-                    complete = true;
-                }
-
-                var weight = swatch.weight;
-                if (weight != undefined) {
-                    distance /= weight;
-                }
-                if (distance < minHueDistance
-                    && swatch.hue >= 0) {
-                    tempSwatchPointer = swatch;
-                    minHueDistance = distance;
-                }
-            });
-
-            if (tempSwatchPointer != null) {
-                tempSwatchPointer.colors.forEach(c => {
-                    currentSwatch.colors.push(c);
-                });
-            }
-
-            // specialColors.forEach(c => {
-            //     currentSwatch.colors.push(c);
-            // });
-
-            //find closest color on that palette
-            currentSwatch.colors.forEach(color => {
-                var swatchHSV = rgbToHsv(color[0], color[1], color[2]);
-
-
-                var distance = Math.abs(swatchHSV[2] * 100 - value);
-                if (distance < minValueDifference) {
-                    currentColor = color;
-                    minValueDifference = distance;
-                }
-            });
-
-
-
-            var index = currentSwatch.colors.indexOf(currentColor);
-            if (darken != 0) {
-                var newIndex = +index + +darken;
-                newIndex = Math.max(0, newIndex);
-                newIndex = Math.min(currentSwatch.colors.length - 1, newIndex);
-                currentColor = currentSwatch.colors[newIndex];
-            }
-
-            dat[i] = currentColor[0];
-            dat[i + 1] = currentColor[1];
-            dat[i + 2] = currentColor[2];
-        }
-        ctx.putImageData(imageData, 0, 0);
-        //ctx.drawImage(img, 0, 0);
+        // step 3, resize to final size
+        ctx.drawImage(oc, 0, 0, oc.width * scale, oc.height * scale,
+            0, 0, canvas.width, canvas.height);
 
     }
 
@@ -400,6 +291,19 @@ window.onload = function () {
 };
 
 function Stir() {
+
+
+    var iterations = document.getElementById('iterations').value;
+
+    PostImage(iterations)
+
+}
+
+function PostImage(i) {
+    if (i == 0) {
+        return;
+    }
+    $('#loading').show();
     var cauldron = document.getElementById('cauldron');
     var cauldTx = cauldron.getContext('2d');
 
@@ -417,18 +321,72 @@ function Stir() {
     //call its drawImage() function passing it the source canvas directly
     cauldTx.putImageData(imageData, startX, startY);
 
-
     var jpegUrl = cauldron.toDataURL("image/jpeg")
 
-    var request = JSON.stringify(jpegUrl);
-
+    var request =
+    {
+        "image": JSON.stringify(jpegUrl),
+        "prompt": document.getElementById('prompt').value,
+        "strength": document.getElementById('strength').value,
+        "cfg": document.getElementById('cfg').value,
+        "seed": document.getElementById('seed').value + i,
+        "steps": document.getElementById('steps').value,
+        "name": document.getElementById('name').value,
+    }
     $.ajax({
         url: '/image',
         type: "POST",
-        data: request,
+        data: JSON.stringify(request),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
+            console.log(data);
+            $('#loading').hide();
+
+            var image = new Image();
+            image.onload = function () {
+                cauldTx.drawImage(image, 0, 0);
+                PostImage(i - 1);
+            };
+            var imageData = data.image.replace("b\'\"", "");
+            imageData = imageData.substring(0, imageData.length - 1);
+
+            console.log(imageData);
+            image.src = imageData;
+        }
+    })
+}
+
+
+function Conjure(i) {
+    if (i == 0) {
+        return;
+    }
+    var cauldron = document.getElementById('cauldron');
+    var cauldTx = cauldron.getContext('2d');
+
+    $('#loading').show();
+
+    var pasteBin = document.getElementById('pasteBin');
+    var pasteBinCtx = pasteBin.getContext('2d');
+
+    var request =
+    {
+        "prompt": document.getElementById('prompt').value,
+        "strength": document.getElementById('strength').value,
+        "cfg": document.getElementById('cfg').value,
+        "seed": document.getElementById('seed').value,
+        "steps": document.getElementById('steps').value,
+        "name": document.getElementById('name').value,
+    };
+    $.ajax({
+        url: '/conjure',
+        type: "POST",
+        data: JSON.stringify(request),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            $('#loading').hide();
             console.log(data);
 
             var image = new Image();
@@ -442,5 +400,5 @@ function Stir() {
             image.src = imageData;
         }
     })
-
 }
+

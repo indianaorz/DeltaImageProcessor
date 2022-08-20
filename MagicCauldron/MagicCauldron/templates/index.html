@@ -20,12 +20,51 @@
     <!-- <img id="pastedImage"></img> -->
     <canvas id="pasteBin" width="256" height="256"></canvas>
     <br>
+    <div id="loading"></div>
+    <input id="prompt" />
+    <div id="properties">
 
+        <label class="has-float-label">
+            <input placeholder=" " type="text" id="name" value="name">
+            <span class="label">Name</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="strength" value=".5">
+            <span class="label">Strength</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="cfg" value="7">
+            <span class="label">CFG</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="seed" value="100">
+            <span class="label">Seed</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="steps" value="100">
+            <span class="label">Steps</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="iterations" value="1">
+            <span class="label">Iterations</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="pastescale" value="1">
+            <span class="label">Paste Scale</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+    </div>
 
-
-    <canvas id="cauldron" width="512" height="512"></canvas>
+    <canvas id="cauldron" width="256" height="256"></canvas>
 
     <button class="pure-material-button-contained button" onclick="Stir()">Stir</button>
+    <button class="pure-material-button-contained button" onclick="Conjure()" style=" bottom: 12vh;">Conjure</button>
 
 
 </body>
