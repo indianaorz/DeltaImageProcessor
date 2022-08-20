@@ -18,10 +18,10 @@
     padding: 12px;
     margin: 0 48px;"></textarea>
     <!-- <img id="pastedImage"></img> -->
-    <canvas id="pasteBin" width="256" height="256"></canvas>
+    <canvas id="pasteBin" width="0" height="0"></canvas>
     <br>
     <div id="loading"></div>
-    <input id="prompt" />
+    <textarea id="prompt"></textarea>
     <div id="properties">
 
         <label class="has-float-label">
@@ -59,10 +59,21 @@
             <span class="label">Paste Scale</span>
             <div class="helper">Will filter out colors with value higher(0-1)</div>
         </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="width" max="512" min="16" value="256">
+            <span class="label">Width</span>
+            <div class="helper">Max 512</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="height" max="512" min="16" value="256">
+            <span class="label">Height</span>
+            <div class="helper">Max 512</div>
+        </label>
     </div>
 
     <canvas id="cauldron" width="256" height="256"></canvas>
 
+    <button class="pure-material-button-contained button" onclick="ResetImage()" style=" bottom: 24vh; width:80px; height:80px">ResetImage</button>
     <button class="pure-material-button-contained button" onclick="Stir()">Stir</button>
     <button class="pure-material-button-contained button" onclick="Conjure()" style=" bottom: 12vh;">Conjure</button>
 

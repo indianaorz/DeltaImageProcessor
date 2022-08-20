@@ -20,7 +20,7 @@ window.onload = function () {
     function dragElement(elmnt) {
 
         elmnt.style.top = "10vh";
-        elmnt.style.left = "10vw";
+        elmnt.style.left = "80vw";
 
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (document.getElementById(elmnt.id + "header")) {
@@ -104,12 +104,19 @@ window.onload = function () {
 
     document.getElementById('pastescale').addEventListener('change', ProcessImage);
 
+    document.getElementById('width').addEventListener('change', ChangeCanvasScale);
+    document.getElementById('height').addEventListener('change', ChangeCanvasScale);
+
     StartCauldron();
 
     function StartCauldron() {
         cauldTx.fillRect(0, 0, cauldron.width, cauldron.height);
     }
 
+    function ChangeCanvasScale() {
+        cauldron.height = parseInt(document.getElementById('height').value / 64) * 64;
+        cauldron.width = parseInt(document.getElementById('width').value / 64) * 64;
+    }
 
 
     function ProcessImage() {
@@ -289,17 +296,26 @@ window.onload = function () {
             }
         ]
     }
+
 };
 
+var lastX;
+var lastY;
+var setLast = false;
 function Stir() {
 
 
     var iterations = document.getElementById('iterations').value;
-
+    var pasteBin = document.getElementById('pasteBin');
+    setLast = false
     PostImage(iterations)
 
 }
 
+function ResetImage() {
+    pasteBin.style.top = lastX;
+    pasteBin.style.left = lastY;
+}
 function PostImage(i) {
     if (i == 0) {
         return;
@@ -321,6 +337,15 @@ function PostImage(i) {
 
     //call its drawImage() function passing it the source canvas directly
     cauldTx.putImageData(imageData, startX, startY);
+
+    if (!setLast) {
+        lastX = pasteBin.style.top;
+        lastY = pasteBin.style.left;
+        pasteBin.style.top = "10vh";
+        pasteBin.style.left = "80vw";
+        setLast = true;
+    }
+
 
     var jpegUrl = cauldron.toDataURL("image/jpeg")
 
@@ -379,6 +404,8 @@ function Conjure(i) {
         "seed": document.getElementById('seed').value,
         "steps": document.getElementById('steps').value,
         "name": document.getElementById('name').value,
+        "width": document.getElementById('width').value,
+        "height": document.getElementById('height').value,
     };
     $.ajax({
         url: '/conjure',

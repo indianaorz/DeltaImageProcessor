@@ -166,7 +166,7 @@ html {
         border-radius: 0;
         box-shadow: none;
         background-color: initial;
-        color: #2c2c2c;
+        color: white;
         caret-color: #2979ff;
         border-bottom: 2px solid black;
     }
@@ -209,11 +209,11 @@ input {
 }
 
 .has-float-label input:invalid ~ .label {
-    color: #ff1744;
+    color: white;
 }
 
 .has-float-label input:focus ~ .label {
-    color: #2979ff;
+    color: white;
 }
 
 .has-float-label input:invalid:not(:focus):not(:placeholder-shown) ~ .error {
@@ -221,7 +221,7 @@ input {
 }
 
 .error {
-    color: #ff1744;
+    color: white;
     display: none;
 }
 
@@ -250,7 +250,7 @@ a {
     }
 
     a:visited .helper {
-        color: #eee;
+        color: white;
     }
 
 /*a {

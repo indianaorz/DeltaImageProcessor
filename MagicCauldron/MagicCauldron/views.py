@@ -140,6 +140,9 @@ def create_image():
     seed = int(data["seed"])
     steps = int(data["steps"])
 
+    width = int(data["width"])
+    height = int(data["height"])
+
 
     if cfg == 0:
         cfg = 7.0
@@ -161,14 +164,18 @@ def create_image():
 
     if iterations > 16:
         iterations = 16
+        
+    width = int(width/64) * 64
+    height = int(width/height) * 64
 
     outputs = model.txt2img(
         prompt=prompt,
-        strength=n,
         iterations=num,
         seed=(seed),
         steps=steps,
         cfg_scale=cfg,
+        width=width,
+        height=height
     )
 
     # f gets closed when you exit the with statement
