@@ -97,11 +97,12 @@ window.onload = function () {
 
 
     //Add the change listener to update image
-    inputs = document.getElementsByTagName('input');
-    for (index = 0; index < inputs.length; ++index) {
-        inputs[index].addEventListener('change', ProcessImage);
-    }
+    //inputs = document.getElementsByTagName('input');
+    //for (index = 0; index < inputs.length; ++index) {
+    //    inputs[index].addEventListener('change', ProcessImage);
+    //}
 
+    document.getElementById('pastescale').addEventListener('change', ProcessImage);
 
     StartCauldron();
 
