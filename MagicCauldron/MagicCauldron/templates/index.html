@@ -1,0 +1,265 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<html>
+
+<head>
+    <script src="../static/scripts/color-conversion.js"></script>
+    <script src="../static/scripts/controller.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="../static/content/site.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <textarea id="pasteArea" placeholder="Paste Image Here" style="
+    padding: 12px;
+    margin: 0 48px;"></textarea>
+    <!-- <img id="pastedImage"></img> -->
+    <canvas id="pasteBin" width="256" height="256" ></canvas>
+    <br>
+
+    <!--<div class="input-row">
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="Darken" value="0">
+            <span class="label">Shift</span>
+            <div class="helper">Will Shift Colors Left or Right on Palette</div>
+        </label>
+    </div>
+    <br>
+    <br>
+
+
+    <div class="input-row">
+
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="-4">
+            <span>Black</span>
+        </label>
+
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-4Weight" value=".1">
+            <span class="label">Value Threshold</span>
+            <div class="helper">Will filter out colors with value higher(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-4Sat" value=".5">
+            <span class="label">Saturation Threshold</span>
+            <div class="helper">Will filter out colors with saturation higher(0-1)</div>
+        </label>
+    </div>
+
+
+
+    <div class="input-row">
+
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="-3">
+            <span>White</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-3Weight" value=".9">
+            <span class="label">Value Threshold</span>
+            <div class="helper">Will filter out colors with value lower(0-1)</div>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-3Sat" value=".1">
+            <span class="label">Saturation Threshold</span>
+            <div class="helper">Will filter out colors with saturation higher(0-1)</div>
+        </label>
+    </div>-->
+
+    <!--
+    <div class="input-row">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="-2">
+            <span>Skin</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-2Weight" value="1">
+            <span class="label">Weight Threshold</span>
+            <div class="helper">Skin tone currently does not work at all</div>
+        </label>
+    </div> -->
+
+
+
+
+
+    <!--<div class="input-row" style="background-color:#d9d9d9">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="-1">
+            <span>Grey</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="-1Weight" value=".15">
+            <span class="label">Saturation Threshold</span>
+            <div class="helper">
+                When HSV Saturation value from sample image is less than this, output will use grey
+                palette.
+            </div>
+        </label>
+    </div>
+
+
+
+    <div class="input-row" style="background-color:#d9928d">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="0">
+            <span>Red</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="0Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+    <div class="input-row" style="background-color:#d9b38d">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="30">
+            <span>Brown</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="30Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#cdd98d">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="60">
+            <span>Yellow</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="60Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#a0d98d">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="120">
+            <span>Green</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="120Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#8dd9b3">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="160">
+            <span>Teal</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="160Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#8dd9d2">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="180">
+            <span>Aqua</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="180Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#8dc7d9">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="210">
+            <span>Blue</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="210Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#8d8dd9">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="250">
+            <span>Indigo</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="250Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+
+    <div class="input-row" style="background-color:#ac8dd9">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="280">
+            <span>Purple</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="280Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>
+
+    <div class="input-row" style="background-color:#c68dd9">
+        <label class="pure-material-checkbox">
+            <input type="checkbox" class="messageCheckbox" value="300">
+            <span>Violet</span>
+        </label>
+        <label class="has-float-label">
+            <input placeholder=" " type="number" id="300Weight" value="1">
+            <span class="label">Weight</span>
+            <div class="helper">
+                Multiplier applied when choosing to use this color. Higher means more likely over
+                others.
+            </div>
+        </label>
+    </div>-->
+
+
+
+
+</body>
+
+</html>
+
+{% endblock %}
