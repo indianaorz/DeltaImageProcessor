@@ -69,7 +69,7 @@ html {
 #cauldron {
     padding: 0;
     position: fixed;
-    left: 52vw;
+    left: 29vw;
     top: 22vh;
     box-shadow: 0px 0px 1vw 1vw black;
 }
@@ -77,7 +77,7 @@ html {
     box-shadow: 0px 0px 1vw 1vw black;
     padding: 0;
     position: fixed;
-    left: 52vw;
+    left: 29vw;
     top: 22vh;
     z-index: 100;
     pointer-events: none
