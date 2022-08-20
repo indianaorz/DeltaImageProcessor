@@ -80,7 +80,7 @@ def process_image():
         strength=n,
         init_img=init,
         iterations=num,
-        seed=(seed),
+        #seed=(seed),
         steps=steps,
         cfg_scale=cfg,
     )
