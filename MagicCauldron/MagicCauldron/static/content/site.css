@@ -97,7 +97,7 @@ html {
     background: url(../image/spinner.gif) no-repeat center center;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 30%;
     height: 20%;
     width: 20%;
     z-index: 9999999;

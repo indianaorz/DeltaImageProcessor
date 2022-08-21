@@ -330,8 +330,36 @@ function ResetImage() {
 
 function RevealImage() {
 
-    var jpegUrl = cauldron.toDataURL("image/jpeg")
     $('#loading').show();
+
+    var cauldron = document.getElementById('cauldron');
+    var cauldTx = cauldron.getContext('2d');
+
+    if (pasteBinSet) {
+        var pasteBin = document.getElementById('pasteBin');
+        var pasteBinCtx = pasteBin.getContext('2d');
+
+        var startX = parseInt(pasteBin.getBoundingClientRect().left) - parseInt(cauldron.getBoundingClientRect().left);
+        var startY = parseInt(pasteBin.getBoundingClientRect().top) - parseInt(cauldron.getBoundingClientRect().top);
+
+
+        var imageData = pasteBinCtx.getImageData(0, 0, pasteBin.width, pasteBin.height);
+
+
+        //call its drawImage() function passing it the source canvas directly
+        cauldTx.putImageData(imageData, startX, startY);
+
+
+        if (!setLast) {
+            lastX = pasteBin.style.top;
+            lastY = pasteBin.style.left;
+            pasteBin.style.top = "15vh";
+            pasteBin.style.left = "0vw";
+            setLast = true;
+        }
+    }
+
+    var jpegUrl = cauldron.toDataURL("image/jpeg")
 
     var request =
     {
@@ -348,7 +376,7 @@ function RevealImage() {
             console.log(data);
             $('#loading').hide();
 
-            document.getElementById('prompt').value = data.caption;
+            document.getElementById('prompt').value = data.caption.replace("\n\n","");
         }
     })
 
