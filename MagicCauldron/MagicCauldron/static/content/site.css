@@ -129,7 +129,7 @@ html {
     left: 1vw;
     width: 60%;
     max-width: 60%;
-    background-color: black;/*hsl(40deg 27% 50%);*/
+    background-color: black; /*hsl(40deg 27% 50%);*/
     color: white;
     font-size: 1.5vw;
 }
@@ -551,4 +551,13 @@ a:visited {
     width: 16vw;
     background-color: hsl(143deg 60% 10%);
     height: 34px;
+}
+
+
+.revealbutton {
+    bottom: 23vh;
+    width: 13vw;
+    background-color: hsl(143deg 60% 10%);
+    height: 34px;
+    right: 18vw;
 }

@@ -10,7 +10,7 @@ window.onload = function () {
     var cauldron = document.getElementById('cauldron');
     var cauldTx = cauldron.getContext('2d');
 
-    var cauldronoverlay = document.getElementById('cauldronoverlay'); 
+    var cauldronoverlay = document.getElementById('cauldronoverlay');
 
 
     var pastedImage;
@@ -327,6 +327,33 @@ function ResetImage() {
     pasteBin.style.top = lastX;
     pasteBin.style.left = lastY;
 }
+
+function RevealImage() {
+
+    var jpegUrl = cauldron.toDataURL("image/jpeg")
+    $('#loading').show();
+
+    var request =
+    {
+        "image": JSON.stringify(jpegUrl),
+        "name": document.getElementById('name').value,
+    }
+    $.ajax({
+        url: '/reveal',
+        type: "POST",
+        data: JSON.stringify(request),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $('#loading').hide();
+
+            document.getElementById('prompt').value = data.caption;
+        }
+    })
+
+}
+
 function PostImage(i) {
     if (i == 0) {
         return;
