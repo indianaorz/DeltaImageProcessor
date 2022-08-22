@@ -376,7 +376,7 @@ function RevealImage() {
             console.log(data);
             $('#loading').hide();
 
-            document.getElementById('prompt').value = data.caption.replace("\n\n","");
+            document.getElementById('prompt').value = data.caption.replace("\n\n", "");
         }
     })
 
@@ -475,6 +475,8 @@ function Conjure(i) {
         "width": document.getElementById('width').value,
         "height": document.getElementById('height').value,
     };
+
+    //document.getElementById('seed').value = parseInt(document.getElementById('seed').value) + 1;
     $.ajax({
         url: '/conjure',
         type: "POST",

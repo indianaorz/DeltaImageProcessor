@@ -45,7 +45,7 @@
             <div class="helper">Seed for noise generation. Same seed = same noise</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="steps" value="100">
+            <input placeholder=" " type="number" id="steps" value="30">
             <span class="label">Steps</span>
             <div class="helper">How many rendering steps are performed</div>
         </label>
@@ -60,19 +60,19 @@
             <div class="helper">Scale modification when pasting from clipboard</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="width" max="512" min="16" value="256">
+            <input placeholder=" " type="number" id="width" max="768" min="16" value="512">
             <span class="label">Width</span>
             <div class="helper">Max 512</div>
         </label>
         <label class="has-float-label">
-            <input placeholder=" " type="number" id="height" max="512" min="16" value="256">
+            <input placeholder=" " type="number" id="height" max="768" min="16" value="512">
             <span class="label">Height</span>
             <div class="helper">Max 512</div>
         </label>
     </div>
 
-    <canvas id="cauldron" width="256" height="256"></canvas>
-    <div id="cauldronoverlay" width="256" height="256"></div>
+    <canvas id="cauldron" width="512" height="512"></canvas>
+    <div id="cauldronoverlay" width="512" height="512"></div>
 
     <button class="pure-material-button-contained button revealbutton" onclick="RevealImage()">Reveal</button>
     <button class="pure-material-button-contained button resetbutton" onclick="ResetImage()">Reset Image</button>

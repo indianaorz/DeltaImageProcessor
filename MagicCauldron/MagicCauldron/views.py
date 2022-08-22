@@ -13,6 +13,30 @@ from PIL import Image
 from ldm.simplet2i import T2I
 model = T2I()
 
+
+import torch
+from diffusers import StableDiffusionPipeline    
+from diffusers.pipelines.stable_diffusion import StableDiffusionSafetyChecker
+from transformers import CLIPConfig, PreTrainedModel, PretrainedConfig
+class NoSafetyChecker(PreTrainedModel):
+    config_class = CLIPConfig
+
+    def __init__(self, config: CLIPConfig):
+        super().__init__(config)
+  
+    @torch.no_grad()
+    def forward(self, clip_input, images):
+        return images, [False]
+
+NoSafetyChecker.__module__ = StableDiffusionSafetyChecker.__module__
+
+# make sure you're logged in with `huggingface-cli login`
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=True, safety_checker=NoSafetyChecker)  
+
+pipe.safety_checker = pipe.safety_checker(PretrainedConfig(**pipe.config))
+pipe = pipe.to("cuda")
+
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -91,6 +115,9 @@ def process_image():
         cfg_scale=cfg,
     )
 
+    
+
+
     # f gets closed when you exit the with statement
     # Now save the value of filename to your database
 
@@ -168,15 +195,29 @@ def create_image():
     width = int(width/64) * 64
     height = int(height/64) * 64
 
-    outputs = model.txt2img(
-        prompt=prompt,
-        iterations=num,
-        seed=(seed),
-        steps=steps,
-        cfg_scale=cfg,
-        width=width,
-        height=height
-    )
+    from torch import autocast
+    import torch
+    
+    generator = torch.Generator("cuda").manual_seed(seed)
+
+    # prompt = "a photograph of an astronaut riding a horse"
+    with autocast("cuda"):
+      image = pipe(prompt,width=width,height=height,num_inference_steps=steps,guidance_scale=cfg, generator=generator)["sample"][0]  # image here is in [PIL format](https://pillow.readthedocs.io/en/stable/)
+
+    # Now to display an image you can do either save it such as:
+    image.save(f"name.png")
+
+
+
+    #outputs = model.txt2img(
+    #    prompt=prompt,
+    #    iterations=num,
+    #    seed=(seed),
+    #    steps=steps,
+    #    cfg_scale=cfg,
+    #    width=width,
+    #    height=height
+    #)
 
     # f gets closed when you exit the with statement
     # Now save the value of filename to your database
@@ -187,7 +228,7 @@ def create_image():
 
     encoded_string = ""
 
-    with open(outputs[0][0], "rb") as image_file:
+    with open(f"name.png", "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
 
     print(encoded_string)
